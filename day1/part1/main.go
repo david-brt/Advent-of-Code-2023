@@ -26,7 +26,6 @@ func main() {
     for i:=0; i<len(line); i++ {
       // check if byte is integer between 0 and 9
       if line[i] >= 48 && line[i] < 58 {
-        fmt.Println(int(line[i] - '0') * 10)
         res += int(line[i] - '0') * 10
         break
       }
@@ -35,7 +34,6 @@ func main() {
     for i:=len(line)-1; i>= 0; i-- {
       // check if byte is integer between 0 and 9
       if line[i] >= 48 && line[i] < 58 {
-        fmt.Println(int(line[i] - '0'))
         res += int(line[i] - '0')
         break
       }
