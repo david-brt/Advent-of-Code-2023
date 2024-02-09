@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"unicode"
 )
 
 func main() {
-	file, err := os.Open("test.txt")
+	file, err := os.Open("../input.txt")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -25,34 +26,10 @@ func main() {
 		}
 
 		lineBytes := parseLine(line)
-
-		res += findFirstDigitLiteral(lineBytes) * 10
-		res += findLastDigitLiteral(lineBytes)
+		res += calibrationSum(lineBytes)
 	}
 
 	fmt.Println(res)
-}
-
-// returns the first digit literal or 0 if none found
-func findFirstDigitLiteral(line []byte) int {
-	for i := 0; i < len(line); i++ {
-		// check if byte is integer between 0 and 9
-		if line[i] >= 48 && line[i] < 58 {
-			return int(line[i] - '0')
-		}
-	}
-	return 0
-}
-
-// returns the last digit literal or 0 if none found
-func findLastDigitLiteral(line []byte) int {
-	for i := len(line) - 1; i >= 0; i-- {
-		// check if byte is integer between 0 and 9
-		if line[i] >= 48 && line[i] < 58 {
-			return int(line[i] - '0')
-		}
-	}
-	return 0
 }
 
 // guarantees that the first and the last number word have their first character converted to a number
@@ -73,4 +50,24 @@ func parseLine(line string) []byte {
 	}
 
 	return lineBytes
+}
+
+func calibrationSum(line []byte) int {
+	res := 0
+
+	for i := 0; i < len(line); i++ {
+		if unicode.IsDigit(rune(line[i])) {
+			res += int(line[i]-'0') * 10
+			break
+		}
+	}
+
+	for i := len(line) - 1; i >= 0; i-- {
+		if unicode.IsDigit(rune(line[i])) {
+			res += int(line[i] - '0')
+			break
+		}
+	}
+
+	return res
 }

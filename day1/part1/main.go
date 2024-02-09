@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"unicode"
 )
 
 func main() {
@@ -15,6 +16,12 @@ func main() {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
+	res := calibrationSum(scanner)
+
+	fmt.Println(res)
+}
+
+func calibrationSum(scanner *bufio.Scanner) int {
 	res := 0
 
 	for scanner.Scan() {
@@ -24,21 +31,19 @@ func main() {
 		}
 
 		for i := 0; i < len(line); i++ {
-			// check if byte is integer between 0 and 9
-			if line[i] >= 48 && line[i] < 58 {
+			if unicode.IsDigit(rune(line[i])) {
 				res += int(line[i]-'0') * 10
 				break
 			}
 		}
 
 		for i := len(line) - 1; i >= 0; i-- {
-			// check if byte is integer between 0 and 9
-			if line[i] >= 48 && line[i] < 58 {
+			if unicode.IsDigit(rune(line[i])) {
 				res += int(line[i] - '0')
 				break
 			}
 		}
 	}
 
-	fmt.Println(res)
+	return res
 }
